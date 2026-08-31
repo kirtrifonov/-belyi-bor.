@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Название объекта] — резиденция в Новом Николино</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340;0,9..144,460;0,9..144,560;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14130f;
+    --cream:#f6f0e2;
+    --gold:#ab8a54;
+    --gold-light:#c9a876;
+    --forest:#2a3323;
+    --stone:#e6dfcc;
+    --line:rgba(171,138,84,.35);
+    --maxw:1280px;
+    --ease:cubic-bezier(.16,.8,.3,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',serif;font-optical-sizing:auto;font-weight:460;letter-spacing:-.01em;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+  .img-fallback{background:linear-gradient(135deg,var(--forest),var(--ink));display:flex;align-items:center;justify-content:center;}
+  .img-fallback img{display:none;}
+  .img-fallback::after{content:"Фото объекта";font-family:'Fraunces',serif;font-style:italic;color:rgba(245,239,226,.5);font-size:15px;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+
+  /* SIGNATURE — growth-ring mark: the site is structured as concentric
+     rings expanding outward from the house, like a cut tree trunk.
+     Each ring number below is a real position in that sequence. */
+  .ring{display:inline-flex;flex:none;margin-right:10px;}
+  .ring circle{fill:none;stroke:currentColor;}
+  .eyebrow{
+    font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:18px;
+    display:inline-flex;align-items:center;
+  }
+  :focus-visible{outline:2px solid var(--gold-light);outline-offset:3px;}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+    .hero video{display:none;}
+  }
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.in{opacity:1;transform:none;}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:15px 30px;border:1px solid currentColor;border-radius:2px;
+    font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+    transition:.35s;
+  }
+  .btn-gold{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+  .btn-gold:hover{background:var(--gold-light);border-color:var(--gold-light);}
+  .btn-line{color:var(--cream);border-color:rgba(245,239,226,.55);}
+  .btn-line:hover{border-color:var(--cream);background:rgba(245,239,226,.08);}
+  .btn-dark{color:var(--ink);border-color:rgba(21,20,15,.35);}
+  .btn-dark:hover{border-color:var(--ink);background:rgba(21,20,15,.06);}
+
+  /* NAV */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 32px;transition:.4s;
+  }
+  header.scrolled{background:rgba(21,20,15,.92);backdrop-filter:blur(8px);padding:14px 32px;}
+  .logo{font-family:'Fraunces',serif;font-size:22px;letter-spacing:.03em;color:var(--cream);font-weight:560;display:flex;align-items:center;}
+  nav{display:flex;gap:36px;}
+  nav a{font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,239,226,.85);font-weight:600;}
+  nav a:hover{color:var(--gold-light);}
+  .nav-right{display:flex;align-items:center;gap:22px;}
+  .phone{color:var(--cream);font-size:14px;font-weight:600;letter-spacing:.02em;}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+  .burger span{width:24px;height:1.5px;background:var(--cream);}
+
+  /* HERO */
+  .hero{
+    position:relative;height:100svh;min-height:640px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    color:var(--cream);overflow:hidden;
+  }
+  .hero video, .hero img.fallback{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(15,14,10,.25) 0%,rgba(15,14,10,.15) 35%,rgba(15,14,10,.75) 100%);
+    z-index:1;
+  }
+  .hero-spine{
+    position:absolute;z-index:2;left:20px;top:50%;
+    transform:translateY(-50%) rotate(-90deg);transform-origin:left top;
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    color:rgba(245,239,226,.65);white-space:nowrap;
+  }
+  .hero-content{position:relative;z-index:2;padding:0 32px 0 84px;max-width:var(--maxw);margin:0 auto;width:100%;}
+  .hero-title{
+    font-size:clamp(56px,11vw,148px);
+    font-style:italic;font-weight:360;line-height:.88;
+    margin-bottom:26px;
+  }
+  .hero-sub{
+    font-size:clamp(15px,1.7vw,19px);max-width:480px;line-height:1.55;
+    color:rgba(245,239,226,.88);margin-bottom:34px;font-weight:400;
+  }
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px;}
+
+  .stats-strip{
+    position:relative;z-index:2;
+    border-top:1px solid rgba(245,239,226,.22);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 32px;max-width:var(--maxw);margin:0 auto;
+  }
+  .stats-strip .ring{color:rgba(245,239,226,.3);flex:none;}
+  .stats-strip .num{font-family:'Fraunces',serif;font-size:clamp(22px,2.6vw,32px);font-weight:500;}
+  .stats-strip .lbl{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,239,226,.6);margin-top:4px;}
+
+  /* SECTION GENERIC */
+  section{padding:120px 0;}
+  .section-tight{padding:96px 0;}
+  .center{text-align:center;}
+  .lead{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:clamp(26px,3.4vw,42px);line-height:1.35;max-width:880px;
+  }
+  .lead.mx{margin:0 auto;}
+  .body-text{font-size:16px;line-height:1.8;color:rgba(21,20,15,.78);max-width:560px;}
+
+  /* MANIFESTO */
+  .manifesto{background:var(--ink);color:var(--cream);text-align:center;}
+  .manifesto .lead{color:var(--cream);margin:0 auto;}
+  .manifesto .eyebrow{color:var(--gold-light);}
+
+  /* ABOUT SPLIT */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+  .split .img-box{aspect-ratio:4/5;overflow:hidden;border-radius:2px;}
+  .split.rev{direction:rtl;}
+  .split.rev > *{direction:ltr;}
+  .quote-block{
+    margin-top:34px;padding-left:22px;border-left:2px solid var(--gold);
+  }
+  .quote-block p{font-family:'Fraunces',serif;font-style:italic;font-size:20px;line-height:1.5;color:var(--ink);}
+  .quote-block span{display:block;margin-top:10px;font-family:'Manrope',sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+
+  /* LOCATION */
+  .location{background:var(--forest);color:var(--cream);}
+  .location .eyebrow{color:var(--gold-light);}
+  .loc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:60px;border-top:1px solid rgba(245,239,226,.18);}
+  .loc-item{padding:30px 20px;border-right:1px solid rgba(245,239,226,.14);border-bottom:1px solid rgba(245,239,226,.14);}
+  .loc-item .num{font-family:'Fraunces',serif;font-size:38px;color:var(--gold-light);}
+  .loc-item .desc{font-size:13px;line-height:1.5;color:rgba(245,239,226,.78);margin-top:8px;}
+  .loc-img{margin-top:48px;aspect-ratio:21/9;overflow:hidden;border-radius:2px;}
+
+  /* GALLERY WALK */
+  .gallery-row{
+    display:grid;grid-template-columns:0.85fr 1.15fr;gap:0;align-items:stretch;
+    min-height:520px;border-bottom:1px solid var(--line);
+  }
+  .gallery-row.reverse{grid-template-columns:1.15fr 0.85fr;}
+  .gallery-row.reverse .gtext{order:2;}
+  .gallery-row.reverse .gimg{order:1;}
+  .gimg{overflow:hidden;min-height:340px;}
+  .gtext{display:flex;flex-direction:column;justify-content:center;padding:56px;}
+  .gtext .num{font-family:'Fraunces',serif;font-size:15px;color:var(--gold);letter-spacing:.1em;margin-bottom:18px;}
+  .gtext h3{font-size:clamp(28px,3vw,40px);margin-bottom:18px;font-style:italic;}
+  .gtext p{font-size:15.5px;line-height:1.75;color:rgba(21,20,15,.75);max-width:440px;}
+
+  /* VIDEO TOUR */
+  .video-tour{padding:100px 0;}
+  .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:56px;}
+  .video-box{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:2px;background:var(--ink);}
+  .video-box video{width:100%;height:100%;object-fit:cover;display:block;}
+  @media(max-width:760px){
+    .video-grid{grid-template-columns:1fr;}
+    .video-box{aspect-ratio:9/16;max-width:420px;margin:0 auto;}
+  }
+
+  /* 3D TOUR */
+  .tour-3d{padding:100px 0;background:var(--stone);}
+  .tour-3d-frame{
+    margin-top:48px;position:relative;width:100%;aspect-ratio:16/9;
+    background:var(--ink);overflow:hidden;border-radius:2px;
+  }
+  .tour-3d-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+
+  /* SPA */
+  .spa{background:var(--forest);color:var(--cream);}
+  .spa .eyebrow, .spa h2{color:var(--gold-light);}
+  .spa h2{color:var(--cream);}
+  .spa .body-text{color:rgba(245,239,226,.75);}
+  .spa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(245,239,226,.16);margin-top:40px;border:1px solid rgba(245,239,226,.16);}
+  .spa-item{background:var(--forest);padding:26px 18px;text-align:center;}
+  .spa-item .num{font-family:'Fraunces',serif;font-size:30px;color:var(--gold-light);}
+  .spa-item .lbl{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(245,239,226,.7);margin-top:6px;}
+  .spa-img{aspect-ratio:21/9;margin-top:40px;overflow:hidden;border-radius:2px;}
+  @media(max-width:700px){.spa-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* FLOOR PLANS */
+  .plans{padding:96px 0;}
+  .plans-empty{
+    margin-top:40px;border:1px dashed var(--line);border-radius:2px;
+    padding:60px 32px;text-align:center;color:rgba(21,20,15,.5);font-size:14.5px;
+  }
+
+  /* PLACEHOLDER NOTES */
+  .hero-name-note{
+    font-size:11px;letter-spacing:.05em;color:rgba(245,239,226,.5);
+    margin-bottom:18px;font-style:italic;
+  }
+  .manifesto-note{
+    margin-top:22px;font-size:12px;color:rgba(245,239,226,.4);font-style:italic;
+    max-width:520px;margin-left:auto;margin-right:auto;
+  }
+
+  /* TEAM */
+  .team{background:var(--stone);}
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;margin-top:56px;}
+  .team-card .img-box{aspect-ratio:1/1;overflow:hidden;margin-bottom:20px;filter:grayscale(15%);}
+  .team-card h4{font-size:22px;font-style:italic;}
+  .team-card .role{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-top:6px;}
+
+  /* FACTS */
+  .facts{background:var(--ink);color:var(--cream);}
+  .facts-grid{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid rgba(245,239,226,.18);margin-top:56px;}
+  .fact{padding:34px 16px;text-align:center;border-right:1px solid rgba(245,239,226,.14);}
+  .fact:last-child{border-right:none;}
+  .fact .num{font-family:'Fraunces',serif;font-size:34px;color:var(--gold-light);}
+  .fact .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,239,226,.65);margin-top:8px;line-height:1.4;}
+
+  /* CONTACT */
+  .contact{position:relative;color:var(--cream);}
+  .contact-bg{position:absolute;inset:0;z-index:0;background:url('https://images.pexels.com/photos/29851234/pexels-photo-29851234.jpeg?auto=compress&cs=tinysrgb&w=1800') center/cover;}
+  .contact-bg::after{content:"";position:absolute;inset:0;background:rgba(15,14,10,.82);}
+  .contact-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;}
+  .contact-info .row{margin-bottom:26px;}
+  .contact-info .row .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px;}
+  .contact-info .row .v{font-size:19px;font-family:'Fraunces',serif;}
+  form{display:flex;flex-direction:column;gap:16px;}
+  form input, form textarea{
+    background:transparent;border:none;border-bottom:1px solid rgba(245,239,226,.35);
+    color:var(--cream);font-family:'Manrope',sans-serif;font-size:15px;padding:12px 2px;
+    outline:none;
+  }
+  form input::placeholder, form textarea::placeholder{color:rgba(245,239,226,.5);}
+  form input:focus, form textarea:focus{border-color:var(--gold);}
+  .consent{font-size:11.5px;color:rgba(245,239,226,.5);line-height:1.5;}
+
+  footer{background:var(--ink);color:rgba(245,239,226,.55);padding:40px 0;font-size:12px;}
+  .footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  @media(max-width:900px){
+    nav, .nav-right .phone{display:none;}
+    .burger{display:flex;}
+    .hero-spine{display:none;}
+    .hero-content{padding-left:20px;}
+    .stats-strip{flex-wrap:wrap;gap:18px 28px;justify-content:flex-start;}
+    .stats-strip .ring{display:none;}
+    .split, .contact-inner{grid-template-columns:1fr;gap:36px;}
+    .split.rev{direction:ltr;}
+    .loc-grid{grid-template-columns:repeat(2,1fr);}
+    .gallery-row, .gallery-row.reverse{grid-template-columns:1fr;min-height:auto;}
+    .gallery-row.reverse .gtext, .gallery-row.reverse .gimg{order:initial;}
+    .gimg{min-height:280px;}
+    .gtext{padding:40px 24px;}
+    .team-grid{grid-template-columns:1fr;}
+    .facts-grid{grid-template-columns:repeat(3,1fr);}
+    .fact:nth-child(3n){border-right:none;}
+    section{padding:72px 0;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="ring-mark" viewBox="0 0 20 20">
+    <circle cx="10" cy="10" r="9" stroke-width="1"/>
+    <circle cx="10" cy="10" r="5.5" stroke-width="1"/>
+    <circle cx="10" cy="10" r="2" stroke-width="1"/>
+  </symbol>
+</svg>
+
+<header id="header">
+  <div class="logo"><svg class="ring" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" style="margin-right:8px;"><use href="#ring-mark"/></svg>[Название]</div>
+  <nav>
+    <a href="#about">О доме</a>
+    <a href="#location">Расположение</a>
+    <a href="#interiors">Интерьеры</a>
+    <a href="#team">Команда</a>
+    <a href="#contact">Контакты</a>
+  </nav>
+  <div class="nav-right">
+    <a class="phone" href="tel:+74951234567">+7 (495) 123-45-67</a>
+    <a class="btn btn-line" href="#contact" style="padding:11px 22px;">Записаться на показ</a>
+  </div>
+  <div class="burger" onclick="document.querySelector('nav').classList.toggle('open')"><span></span><span></span><span></span></div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;background:url('https://images.pexels.com/videos/13085547/castle-cropland-dawn-daylight-13085547.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover;">
+  <video autoplay muted loop playsinline poster="https://images.pexels.com/videos/13085547/castle-cropland-dawn-daylight-13085547.jpeg?auto=compress&cs=tinysrgb&w=1600">
+    <source src="https://videos.pexels.com/video-files/13085547/13085547-uhd_2560_1440_25fps.mp4" type="video/mp4">
+  </video>
+  <div class="hero-spine">Рублёво-Успенское шоссе · Новое Николино</div>
+  <div class="hero-content">
+    <h1 class="hero-title">[Название<br>объекта]</h1>
+    <p class="hero-name-note">рабочий заголовок — ждёт утверждённого названия</p>
+    <p class="hero-sub">Резиденция в Новом Николино — 23 км от МКАД по Рублёво-Успенскому шоссе, в окружении заповедного леса и паркового ландшафта посёлка.</p>
+    <div class="hero-cta">
+      <a class="btn btn-gold" href="#interiors">Смотреть дом</a>
+      <a class="btn btn-line" href="#contact">Получить презентацию</a>
+    </div>
+  </div>
+  <div class="stats-strip">
+    <div><div class="num">1 181 м²</div><div class="lbl">площадь дома</div></div>
+    <svg class="ring" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><use href="#ring-mark"/></svg>
+    <div><div class="num">35 соток</div><div class="lbl">участок</div></div>
+    <svg class="ring" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><use href="#ring-mark"/></svg>
+    <div><div class="num">5</div><div class="lbl">спален с приватными с/у</div></div>
+    <svg class="ring" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><use href="#ring-mark"/></svg>
+    <div><div class="num">23 км</div><div class="lbl">от МКАД</div></div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="wrap center">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>I · Позиционирование</span>
+    <p class="lead mx">Идеально продуманный — не значит идеально спокойный. Дом, где утро начинается с воды, а вечер — с тишины: без компромиссов между жизнью на публике и жизнью для себя.</p>
+    <p class="manifesto-note">Черновой текст-заглушка — заменить на формулировку с исходного слайда клиента (тема «идеально продуманный» + гедонистические сценарии жизни)</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>II · О доме</span>
+      <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;margin-bottom:22px;">Дом на 35 сотках заповедного леса</h2>
+      <p class="body-text">1 181 м² жилой площади и пять спален, у каждой — собственный санузел и гардеробная: дом спроектирован так, чтобы у каждого члена семьи и каждого гостя было полностью приватное крыло, без пересечений маршрутов.</p>
+      <div class="quote-block">
+        <p>«[Место для цитаты архитектора о концепции дома]»</p>
+        <span>[Имя архитектора — уточняется]</span>
+      </div>
+    </div>
+    <div class="img-box">
+      <img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/29453302/pexels-photo-29453302.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Фасад дома в Новом Николино">
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location" class="location">
+  <div class="wrap">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>III · Расположение</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Новое Николино — 23 км от МКАД</h2>
+    <p class="body-text" style="color:rgba(245,239,226,.75);margin-top:18px;">Посёлок занимает 58 га лесного массива на Рублёво-Успенском шоссе, более трети территории — парковая зона с озером и питомником редких растений. На территории — рестораны, фитнес-центр с бассейном, спа-центр, теннисные корты.</p>
+    <div class="loc-grid">
+      <div class="loc-item"><div class="num">23 км</div><div class="desc">от МКАД по Рублёво-Успенскому шоссе</div></div>
+      <div class="loc-item"><div class="num">58 га</div><div class="desc">территория посёлка, лес и парк</div></div>
+      <div class="loc-item"><div class="num">30%+</div><div class="desc">территории — парковые зоны и озеро</div></div>
+      <div class="loc-item"><div class="num">[?]</div><div class="desc">[уточнить: до Москва-Сити]</div></div>
+      <div class="loc-item"><div class="num">[?]</div><div class="desc">[уточнить: до аэропорта]</div></div>
+    </div>
+    <div class="loc-img">
+      <img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/19885873/pexels-photo-19885873.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Озеро и лесной массив посёлка">
+    </div>
+  </div>
+</section>
+
+<!-- INTERIORS GALLERY WALK -->
+<section id="interiors" style="padding-top:100px;padding-bottom:0;">
+  <div class="wrap" style="margin-bottom:56px;">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>IV · Интерьеры</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Путь по дому — от света к тишине</h2>
+  </div>
+
+  <div class="gallery-row">
+    <div class="gtext">
+      <span class="num">Гостиная</span>
+      <h3>Свет как главный материал</h3>
+      <p>Двусветное пространство с видом на лес с трёх сторон. Камин и библиотека формируют приватную зону отдыха, отделённую от парадной гостиной без единой глухой стены.</p>
+    </div>
+    <div class="gimg"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/28729467/pexels-photo-28729467.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Гостиная"></div>
+  </div>
+
+  <div class="gallery-row reverse">
+    <div class="gtext">
+      <span class="num">Кухня</span>
+      <h3>Для тех, кто готовит сам — и для тех, кто принимает гостей</h3>
+      <p>Кухня-остров из цельного камня, скрытая техника премиум-класса и отдельная зона для кейтеринга — фуршет на сорок гостей не потревожит приватность семьи.</p>
+    </div>
+    <div class="gimg"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/35189706/pexels-photo-35189706.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Кухня"></div>
+  </div>
+
+  <div class="gallery-row">
+    <div class="gtext">
+      <span class="num">Мастер-спальня</span>
+      <h3>Крыло, где заканчиваются обязанности</h3>
+      <p>Отдельное крыло второго этажа: спальня с собственным санузлом и гардеробной, кабинет-будуар. Уровень приватности, сопоставимый с отдельным домом.</p>
+    </div>
+    <div class="gimg"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/33837741/pexels-photo-33837741.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Мастер-спальня"></div>
+  </div>
+
+  <div class="gallery-row reverse" style="border-bottom:none;">
+    <div class="gtext">
+      <span class="num">Ванная комната</span>
+      <h3>Спа-ритуал, а не гигиена</h3>
+      <p>Натуральный мрамор, отдельно стоящая ванна с видом на лес и тёплый пол — санузел мастер-спальни спроектирован как приватный спа-кабинет, а не техническое помещение.</p>
+    </div>
+    <div class="gimg"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/33829528/pexels-photo-33829528.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Ванная комната"></div>
+  </div>
+</section>
+
+<!-- SPA -->
+<section class="spa">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--gold-light)"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>V · Спа-комплекс</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Отель уровня five-star — но у вас дома</h2>
+    <p class="body-text" style="margin-top:16px;">Собственный спа-комплекс избавляет от нужды куда-то ехать за восстановлением: бассейн, сауна, хаммам и уличное джакузи — всё в границах участка.</p>
+    <div class="spa-grid">
+      <div class="spa-item"><div class="num">12×4 м</div><div class="lbl">бассейн</div></div>
+      <div class="spa-item"><div class="num">✓</div><div class="lbl">финская сауна</div></div>
+      <div class="spa-item"><div class="num">✓</div><div class="lbl">хаммам</div></div>
+      <div class="spa-item"><div class="num">✓</div><div class="lbl">джакузи на улице</div></div>
+    </div>
+    <div class="img-box spa-img">
+      <img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/28449020/pexels-photo-28449020.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Бассейн и спа-зона">
+    </div>
+  </div>
+</section>
+
+<!-- FLOOR PLANS -->
+<section class="plans">
+  <div class="wrap">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>VI · Планировки</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Схемы этажей</h2>
+    <div class="plans-empty">
+      <p>Раздел ждёт файлы планировок этажей от клиента (PDF/изображения схем).</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO TOUR -->
+<section class="video-tour">
+  <div class="wrap">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>VII · Видео-тур</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Дом в движении</h2>
+    <div class="video-grid">
+      <div class="video-box">
+        <video controls playsinline preload="metadata" poster="">
+          <source src="dom-video-1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-box">
+        <video controls playsinline preload="metadata" poster="">
+          <source src="dom-video-2.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D TOUR -->
+<section class="tour-3d">
+  <div class="wrap">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>VIII · 3D-тур</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">Пройдите по дому не выходя из браузера</h2>
+    <p class="body-text" style="margin-top:16px;">Интерактивная 3D-модель дома — переключайтесь между этажами, осматривайте комнаты со всех сторон.</p>
+    <div class="tour-3d-frame">
+      <!-- ПРИМЕР для наглядности: реальный публичный Matterport-тур (Broadfield Court, Hereford).
+           Когда придёт ссылка от вашего заказчика — замените src на неё. -->
+      <iframe src="https://my.matterport.com/show/?m=i81gEraWpeJ" allow="xr-spatial-tracking; gyroscope; accelerometer" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="team">
+  <div class="wrap">
+    <span class="eyebrow"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>IX · Авторы проекта</span>
+    <h2 style="font-size:clamp(30px,3.6vw,46px);font-style:italic;max-width:640px;">[Раздел ждёт подтверждения у клиента]</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="img-box"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/17174768/pexels-photo-17174768.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Архитектура дома"></div>
+        <h4>[Архитектор]</h4>
+        <div class="role">Уточняется у клиента</div>
+      </div>
+      <div class="team-card">
+        <div class="img-box"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/19689230/pexels-photo-19689230.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Дизайн интерьеров"></div>
+        <h4>[Дизайнер интерьеров]</h4>
+        <div class="role">Уточняется у клиента</div>
+      </div>
+      <div class="team-card">
+        <div class="img-box"><img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/5563472/pexels-photo-5563472.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Ландшафтный дизайн"></div>
+        <h4>[Ландшафтный архитектор]</h4>
+        <div class="role">Уточняется у клиента</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACTS -->
+<section class="facts section-tight">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--gold-light)"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>X · Объект в цифрах</span>
+    <h2 style="font-size:clamp(28px,3.2vw,40px);font-style:italic;">Факты, а не догадки</h2>
+    <div class="facts-grid">
+      <div class="fact"><div class="num">1 181 м²</div><div class="lbl">площадь&nbsp;дома</div></div>
+      <div class="fact"><div class="num">35 сот.</div><div class="lbl">площадь&nbsp;участка</div></div>
+      <div class="fact"><div class="num">5</div><div class="lbl">спален</div></div>
+      <div class="fact"><div class="num">5+[?]</div><div class="lbl">санузлов<br><span style="opacity:.6">уточнить общее число</span></div></div>
+      <div class="fact"><div class="num">[?]</div><div class="lbl">год&nbsp;постройки</div></div>
+      <div class="fact"><div class="num">[?]</div><div class="lbl">машиноместа</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="contact-bg">
+    <img loading="eager" referrerpolicy="no-referrer" onerror="this.parentElement.classList.add('img-fallback')" src="https://images.pexels.com/photos/29851234/pexels-photo-29851234.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Вечерний вид на дом">
+    <div style="position:absolute;inset:0;background:rgba(15,14,10,.82);"></div>
+  </div>
+  <div class="wrap contact-inner">
+    <div class="contact-info">
+      <span class="eyebrow" style="color:var(--gold-light)"><svg class="ring" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><use href="#ring-mark"/></svg>XI · Показы — по записи</span>
+      <h2 style="font-size:clamp(28px,3.4vw,42px);font-style:italic;margin-bottom:30px;">Организуем приватный показ дома</h2>
+      <div class="row"><div class="k">Телефон</div><div class="v"><a href="tel:+70000000000">[указать телефон]</a></div></div>
+      <div class="row"><div class="k">Почта</div><div class="v"><a href="mailto:info@example.ru">[указать почту]</a></div></div>
+      <div class="row"><div class="k">Расположение</div><div class="v">Рублёво-Успенское шоссе, Новое Николино, 23 км от МКАД</div></div>
+    </div>
+    <form onsubmit="event.preventDefault(); this.reset(); alert('Спасибо! Мы свяжемся с вами в течение часа.');">
+      <input type="text" placeholder="Ваше имя" required>
+      <input type="tel" placeholder="Телефон" required>
+      <textarea placeholder="Удобное время для показа" rows="3"></textarea>
+      <button type="submit" class="btn btn-gold" style="margin-top:6px;">Отправить заявку</button>
+      <p class="consent">Нажимая «Отправить заявку», вы соглашаетесь с политикой обработки персональных данных. Информация на сайте носит справочный характер и не является публичной офертой.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 [Название объекта]. Черновой макет для обсуждения.</div>
+    <div>Рублёво-Успенское шоссе · Новое Николино</div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal — one quiet fade-up on entry, no scattered per-element effects.
+  const revealTargets = document.querySelectorAll(
+    '.gallery-row, .team-card, .loc-item, .video-box, .manifesto .lead, .split, .contact-inner, .spa-grid, .plans-empty'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal'));
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealTargets.forEach(el => io.observe(el));
+  } else {
+    revealTargets.forEach(el => el.classList.add('in'));
+  }
+</script>
+</body>
+</html>
